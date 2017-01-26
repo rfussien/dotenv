@@ -13,7 +13,7 @@ class Parser
      *
      * @return string Returns the phrase passed in
      */
-    public function Parse($file)
+    public function parse($file)
     {
         try {
             $this->content = parse_ini_file(

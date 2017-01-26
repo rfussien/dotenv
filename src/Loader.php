@@ -27,12 +27,12 @@ class Loader
         $_ENV[$key]    = $value;
         $_SERVER[$key] = $value;
 
-        switch($value) {
+        switch ($value) {
             case null:
                 putenv("$key=null");
                 break;
             default:
-            putenv("$key=$value");
+                putenv("$key=$value");
         }
     }
 

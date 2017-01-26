@@ -23,7 +23,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK3' => 'value',
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/simple.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/simple.env');
         $this->assertSame($expected, $env);
     }
 
@@ -38,7 +38,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK9' => 'value',
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/double_quoted.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/double_quoted.env');
         $this->assertEquals($expected, $env);
     }
 
@@ -50,7 +50,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK9' => 'value',
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/single_quoted.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/single_quoted.env');
         $this->assertSame($expected, $env);
     }
 
@@ -67,7 +67,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK8' => false,
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/bool.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/bool.env');
         $this->assertSame($expected, $env);
     }
 
@@ -79,7 +79,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK3' => "33 33",
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/numbers.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/numbers.env');
         $this->assertSame($expected, $env);
     }
 
@@ -89,7 +89,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TK2' => null,
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/null.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/null.env');
         $this->assertSame($expected, $env);
     }
 
@@ -98,7 +98,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
         $expected = array(
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/empty_file.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/empty_file.env');
         $this->assertSame($expected, $env);
     }
 
@@ -143,7 +143,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             'TEST55' => null,
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/all_testcase.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/all_testcase.env');
         $this->assertEquals($expected, $env);
     }
 
@@ -152,7 +152,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
         $expected = array(
         );
 
-        $env = $this->parser->Parse(__DIR__ . '/mocks/other.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/other.env');
         $this->assertSame($expected, $env);
     }
 
@@ -161,7 +161,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidKey()
     {
-        $env = $this->parser->Parse(__DIR__ . '/mocks/fail_invalid_key.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/fail_invalid_key.env');
     }
 
     /**
@@ -169,6 +169,6 @@ class EnvTest extends \PHPUnit_Framework_TestCase
      */
     public function testMissingSingleQuote()
     {
-        $env = $this->parser->Parse(__DIR__ . '/mocks/fail_missing_single_quote.env');
+        $env = $this->parser->parse(__DIR__ . '/mocks/fail_missing_single_quote.env');
     }
 }
