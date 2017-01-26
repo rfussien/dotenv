@@ -1,0 +1,50 @@
+{
+    "name": "rfussien/dotenv",
+    "type": "library",
+    "description": "dotenv loader/parser improved for performance",
+    "keywords": [
+        "rfussien",
+        "dotenv"
+    ],
+    "homepage": "https://github.com/rfussien/dotenv",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Remi FUSSIEN",
+            "email": "remi.fussien@gmail.com",
+            "homepage": "https://github.com/rfussien",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~5.6|~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "~4.0||~5.0",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rfussien\\Dotenv\\": "src"
+        },
+        "files": ["src/helper.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rfussien\\Dotenv\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
