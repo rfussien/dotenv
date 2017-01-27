@@ -76,7 +76,6 @@ class EnvTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'TK1' => 1,
             'TK2' => 1.1,
-            'TK3' => "33 33",
         );
 
         $env = $this->parser->parse(__DIR__ . '/mocks/numbers.env');
@@ -113,7 +112,6 @@ class EnvTest extends \PHPUnit_Framework_TestCase
             "TEST8"  => "value",
             "TEST10" => 1,
             "TEST11" => 1.1,
-            "TEST12" => "33 33",
             "TEST13" => "33",
             "TEST14" => true,
             "TEST15" => false,

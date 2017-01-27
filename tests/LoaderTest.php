@@ -20,7 +20,6 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
             "TEST8"  => "value",
             "TEST10" => 1,
             "TEST11" => 1.1,
-            "TEST12" => "33 33",
             "TEST13" => "33",
             "TEST14" => true,
             "TEST15" => false,
