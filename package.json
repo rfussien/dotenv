@@ -1,0 +1,14 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rfussien/dotenv.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-phpunit": "^0.21.10",
+    "gulp-run": "^1.7.1",
+    "gulp-watch": "^4.3.11"
+  }
+}
