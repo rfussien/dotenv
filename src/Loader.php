@@ -16,6 +16,12 @@ class Loader
         return $this;
     }
 
+    public function load()
+    {
+        $this->parse();
+        $this->toEnv();
+    }
+
     public function parse(array $options = [])
     {
         $this->parser = new Parser;
