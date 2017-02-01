@@ -3,7 +3,6 @@
 namespace Rfussien\Dotenv;
 
 use PHPUnit\Framework\TestCase;
-use Rfussien\Dotenv;
 use Rfussien\Dotenv\Exception\ParseException;
 
 class EnvTest extends TestCase

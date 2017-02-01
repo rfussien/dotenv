@@ -9,8 +9,7 @@ class LoaderTest extends TestCase
     public function testLoadAFile()
     {
         $loader = new Loader(__DIR__ . '/mocks/', '0_all.env');
-        $loader->parse();
-        $loader->toEnv();
+        $loader->load();
 
         $expected = [
             'K01' => true,
@@ -50,5 +49,42 @@ class LoaderTest extends TestCase
 
         $this->assertSame($expected, $_ENV);
         $this->assertEquals('value "value" value', $_SERVER['K26']);
+    }
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testCallingToEnvWithoutParseShouldRaiseAnExeption()
+    {
+        $loader = new Loader(__DIR__ . '/mocks/', '0_all.env');
+        $loader->toEnv();
+    }
+
+    public function testParserShouldBeAnInstanceOfParser()
+    {
+        $loader = new Loader(__DIR__ . '/mocks/', '0_all.env');
+        $loader->load();
+
+        $this->assertInstanceOf(Parser::class, $loader->getParser());
+    }
+
+    public function testEnvIsRetrievedFromServer()
+    {
+        $loader = new Loader(__DIR__ . '/mocks/', '0_all.env');
+        $loader->load();
+
+        $_SERVER['ONLYINSERVER'] = 'value';
+
+        $this->assertEquals('value', env('ONLYINSERVER'));
+    }
+
+    public function testEnvIsRetrievedFromPhpEnv()
+    {
+        $loader = new Loader(__DIR__ . '/mocks/', '0_all.env');
+        $loader->load();
+
+        putenv('ONLYINPHPENV=value');
+
+        $this->assertEquals('value', env('ONLYINPHPENV'));
     }
 }

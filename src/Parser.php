@@ -59,21 +59,6 @@ class Parser
         return $this;
     }
 
-    public function sanitizeKeys()
-    {
-        $sanitisedContent = [];
-
-        foreach ($this->content as $key => $value) {
-            $key = preg_replace('/ *export */', '', trim($key));
-
-            $sanitisedContent[$key] = $value;
-        }
-
-        $this->content = $sanitisedContent;
-
-        return $this;
-    }
-
     public function sanitizeValues()
     {
         array_walk($this->content, function (&$value, $key) {
