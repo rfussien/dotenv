@@ -63,6 +63,7 @@ class Parser
 
         foreach ($this->content as $key => $value) {
             $key = preg_replace('/ *export */', '', trim($key));
+
             $sanitisedContent[$key] = $value;
         }
 
@@ -73,7 +74,7 @@ class Parser
 
     public function sanitizeValues()
     {
-        array_walk($this->content, function(&$value, $key) {
+        array_walk($this->content, function (&$value, $key) {
             // sanitize boolean values
             if (in_array($value, ['true', 'on', 'yes', 'false', 'off', 'no'])) {
                 $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);

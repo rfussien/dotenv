@@ -45,7 +45,7 @@ class LoaderTest extends TestCase
             'K30' => 'value',
             'K31' => '',
             'K32' => '',
-            'K33' => NULL,
+            'K33' => null,
         ];
 
         $this->assertSame($expected, $_ENV);

@@ -4,6 +4,9 @@ namespace Rfussien\Dotenv;
 
 class Loader
 {
+    /**
+     * Set the env file
+     */
     protected $file;
 
     protected $parser;
@@ -16,10 +19,15 @@ class Loader
         return $this;
     }
 
+    /**
+     * parse and set the env
+     */
     public function load()
     {
         $this->parse();
         $this->toEnv();
+
+        return $this;
     }
 
     public function parse(array $options = [])
@@ -27,6 +35,8 @@ class Loader
         $this->parser = new Parser;
 
         $this->parser->parse($this->file);
+
+        return $this;
     }
 
     /**
@@ -46,6 +56,8 @@ class Loader
         foreach ($this->parser->getContent() as $key => $value) {
             static::putenv($key, $value);
         }
+
+        return $this;
     }
 
     public static function putenv($key, $value)
