@@ -4,39 +4,57 @@ namespace Rfussien\Dotenv;
 
 class Loader
 {
-    public static function load($file = null)
+    protected $file;
+
+    protected $parser;
+
+    public function __construct($path, $filename = '.env')
     {
-        $env = (new Parser)->parse($file);
+        $path = rtrim($path, DIRECTORY_SEPARATOR);
+        $this->file = $path . DIRECTORY_SEPARATOR . $filename;
 
-        foreach ($env as $key => $value) {
-            static::setEnvironmentVariable($key, $value);
-        }
-
-        return $env;
+        return $this;
     }
 
-    public static function setEnvironmentVariable($key, $value)
+    public function parse(array $options = [])
     {
-        if (function_exists('apache_getenv') &&
-            function_exists('apache_setenv') &&
-            apache_getenv($key)
-        ) {
-            apache_setenv($key, $value);
+        $this->parser = new Parser;
+
+        $this->parser->parse($this->file);
+    }
+
+    /**
+     * Return the parser
+     */
+    public function getParser()
+    {
+        return $this->parser;
+    }
+
+    public function toEnv()
+    {
+        if (!isset($this->parser)) {
+            throw new \LogicException("You must call parse() before", 1);
         }
 
+        foreach ($this->parser->getContent() as $key => $value) {
+            static::putenv($key, $value);
+        }
+    }
+
+    public static function putenv($key, $value)
+    {
         $_ENV[$key]    = $value;
         $_SERVER[$key] = $value;
 
-        switch ($value) {
-            case null:
-                putenv("$key=null");
-                break;
-            default:
-                putenv("$key=$value");
-        }
+        /*
+         * putenv only accept string value
+         */
+        $value = $value === null ? 'null' : $value;
+        putenv("$key=$value");
     }
 
-    public static function getEnvironmentVariable($key, $default = null)
+    public static function getenv($key, $default = null)
     {
         switch (true) {
             case array_key_exists($key, $_ENV):

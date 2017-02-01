@@ -2,156 +2,126 @@
 
 namespace Rfussien\Dotenv;
 
+use PHPUnit\Framework\TestCase;
 use Rfussien\Dotenv;
 use Rfussien\Dotenv\Exception\ParseException;
 
-class EnvTest extends \PHPUnit_Framework_TestCase
+class EnvTest extends TestCase
 {
-    /**
-     * Test that true does in fact equal true
-     */
-    public function setUp()
+    protected function parse($file)
     {
-        $this->parser = new Parser;
+        return (new Parser)->parse(__DIR__ . "/mocks/${file}");
     }
 
-    public function testSimpleEnv()
+    public function test1Booleans()
     {
-        $expected = array(
-            'TK1' => 'value',
-            'TK2' => 'value',
-            'TK3' => 'value',
-        );
+        $expectedBeforeSanitization = [
+            'K01' => true,
+            'K02' => true,
+            'K03' => 'true',
+            'K04' => true,
+            'K05' => true,
+            'K06' => 'on',
+            'K07' => true,
+            'K08' => true,
+            'K09' => 'yes',
+            'K10' => false,
+            'K11' => false,
+            'K12' => 'false',
+            'K13' => false,
+            'K14' => false,
+            'K15' => 'off',
+            'K16' => false,
+            'K17' => false,
+            'K18' => 'no',
+        ];
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/simple.env');
-        $this->assertSame($expected, $env);
+        $expectedAfterSanitization = [
+            'K01' => true,
+            'K02' => true,
+            'K03' => true,
+            'K04' => true,
+            'K05' => true,
+            'K06' => true,
+            'K07' => true,
+            'K08' => true,
+            'K09' => true,
+            'K10' => false,
+            'K11' => false,
+            'K12' => false,
+            'K13' => false,
+            'K14' => false,
+            'K15' => false,
+            'K16' => false,
+            'K17' => false,
+            'K18' => false,
+        ];
+
+        $parsed = $this->parse('1_booleans.env');
+
+        $this->assertSame($expectedBeforeSanitization, $parsed->getContent());
+
+        $parsed->sanitizeValues();
+
+        $this->assertSame($expectedAfterSanitization, $parsed->getContent());
     }
 
-    public function testDoubleQuotedEnv()
+    public function test2Numbers()
     {
-        $expected = array(
-            'TK1' => 'value',
-            'TK2' => 'value " value',
-            'TK3' => 'value "value" value',
-            'TK6' => "value 'value' value",
-            'TK8' => "",
-            'TK9' => 'value',
-        );
+        $expected = [
+            'K01' => 1,
+            'K02' => 1.1,
+        ];
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/double_quoted.env');
-        $this->assertEquals($expected, $env);
+        $parsed = $this->parse('2_numbers.env');
+
+        $this->assertSame($expected, $parsed->getContent());
     }
 
-    public function testSingleQuotedEnv()
+    public function test3Strings()
     {
-        $expected = array(
-            'TK1' => 'value',
-            'TK8' => '',
-            'TK9' => 'value',
-        );
+        $expected = [
+            'K01' => 'value',
+            'K02' => 'value',
+            'K03' => 'VaLuE',
+            'K04' => 'VaLuE',
+            'K05' => 'value " value',
+            'K06' => 'value "value" value',
+            'K07' => "value 'value' value",
+            'K08' => '',
+            'K09' => 'value',
+            'K10' => 'value',
+            'K11' => '',
+            'K12' => '',
+        ];
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/single_quoted.env');
-        $this->assertSame($expected, $env);
+        $parsed = $this->parse('3_strings.env');
+
+        $this->assertSame($expected, $parsed->getContent());
     }
 
-    public function testBoolEnv()
+    public function test4Null()
     {
-        $expected = array(
-            'TK1' => true,
-            'TK2' => false,
-            'TK3' => true,
-            'TK4' => false,
-            'TK5' => true,
-            'TK6' => false,
-            'TK7' => true,
-            'TK8' => false,
-        );
+        $expected = [
+            'K01' => null,
+        ];
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/bool.env');
-        $this->assertSame($expected, $env);
+        $parsed = $this->parse('4_null.env');
+
+        $this->assertSame($expected, $parsed->getContent());
     }
 
-    public function testNumbersEnv()
+    public function test5EmptyFile()
     {
-        $expected = array(
-            'TK1' => 1,
-            'TK2' => 1.1,
-        );
+        $expected = [];
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/numbers.env');
-        $this->assertSame($expected, $env);
-    }
+        $parsed = $this->parse('5_empty_file.env');
 
-    public function testNullEnv()
-    {
-        $expected = array(
-            'TK2' => null,
-        );
+        $this->assertSame($expected, $parsed->getContent());
 
-        $env = $this->parser->parse(__DIR__ . '/mocks/null.env');
-        $this->assertSame($expected, $env);
-    }
+        $parsed = $this->parse('5b_empty_file.env');
 
-    public function testEmptyFileEnv()
-    {
-        $expected = array(
-        );
-
-        $env = $this->parser->parse(__DIR__ . '/mocks/empty_file.env');
-        $this->assertSame($expected, $env);
-    }
-
-    public function testFinalCase()
-    {
-        $expected = array(
-            "TEST1"  => "value",
-            "TEST2"  => "value",
-            "TEST3"  => "value",
-            "TEST4"  => "value",
-            "TEST7"  => 'value "value" value',
-            "TEST8"  => "value",
-            "TEST10" => 1,
-            "TEST11" => 1.1,
-            "TEST13" => "33",
-            "TEST14" => true,
-            "TEST15" => false,
-            "TEST16" => true,
-            "TEST17" => false,
-            "TEST18" => true,
-            "TEST19" => false,
-            "TEST20" => true,
-            "TEST21" => false,
-            "TEST22" => "true",
-            "TEST23" => "YES",
-            "TEST24" => 'NO',
-            "TEST25" => "",
-            "TEST26" => null,
-            "TEST27" => "hello",
-            "TEST29" => 1,
-            "TEST30" => 2,
-            "TEST34" => "foo",
-            "TEST35" => "bar",
-            "TEST37" => "foo",
-            "TEST38" => 'bar',
-            "TEST40" => true,
-            "TEST41" => false,
-            "TEST44" => null,
-            'TEST47' => 'foo',
-            'TEST53' => null,
-            'TEST55' => null,
-        );
-
-        $env = $this->parser->parse(__DIR__ . '/mocks/all_testcase.env');
-        $this->assertEquals($expected, $env);
-    }
-
-    public function testOtherEnv()
-    {
-        $expected = array(
-        );
-
-        $env = $this->parser->parse(__DIR__ . '/mocks/other.env');
-        $this->assertSame($expected, $env);
+        $this->assertSame($expected, $parsed->getContent());
     }
 
     /**
@@ -159,7 +129,7 @@ class EnvTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidKey()
     {
-        $env = $this->parser->parse(__DIR__ . '/mocks/fail_invalid_key.env');
+        $this->parse('fail_invalid_key.env');
     }
 
     /**
@@ -167,6 +137,6 @@ class EnvTest extends \PHPUnit_Framework_TestCase
      */
     public function testMissingSingleQuote()
     {
-        $env = $this->parser->parse(__DIR__ . '/mocks/fail_missing_single_quote.env');
+        $this->parse('fail_missing_single_quote.env');
     }
 }

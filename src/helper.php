@@ -13,6 +13,6 @@ if (! function_exists('env')) {
      */
     function env($key, $default = null)
     {
-        return Rfussien\Dotenv\Loader::getEnvironmentVariable($key, $default);
+        return Rfussien\Dotenv\Loader::getenv($key, $default);
     }
 }
