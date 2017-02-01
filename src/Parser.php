@@ -14,7 +14,7 @@ class Parser
      *
      * @see http://php.net/parse_ini_file
      */
-    private $scannerMode = \INI_SCANNER_TYPED;
+    private $scannerMode;
 
     /**
      * Set the default parsing style
@@ -27,6 +27,8 @@ class Parser
          */
         if (defined('HHVM_VERSION')) {
             $this->setScannerMode(\INI_SCANNER_NORMAL);
+        } else {
+            $this->setScannerMode(\INI_SCANNER_TYPED);
         }
     }
 
