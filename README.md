@@ -7,6 +7,10 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
+## Requirements
+
+PHP >= 5.6
+
 ## Install
 
 Via Composer
@@ -21,7 +25,7 @@ $ composer require rfussien/dotenv
 $dotenv = new Rfussien\Dotenv\Loader(__DIR__);
 $dotenv->load();
 
-// optionnaly you can set a different filename (by defaul .env)
+// optionally you can set a different filename (by defaul .env)
 $dotenv = new Rfussien\Dotenv\Loader(__DIR__, '.my.env');
 $dotenv->load();
 
@@ -29,15 +33,17 @@ $dotenv->load();
 
 ## Why should I use this dotenv loader instead of another ?
 
-This package is meant to be faster than the other dotenv loaders.
-It has less features, but common, its about a config file and a minimum
+This package is meant to be faster than the other dotenv loaders.<br>
+How ? By using the native function parse_ini_file.
+
+It has less features, but common, it's about a config file and a minimum
 computing should be done...
 
 IMHO:
- - a real boolean **MUST NOT** be between quote
- - a string **SHOULD** to be between quotes or double quotes
- - an empty value **is not null**
- - computing nested values every single time my app runs is a waste of time
+ - A real boolean **MUST NOT** be between quotes
+ - A string **SHOULD** be between quotes or double quotes
+ - An empty value is **not null**, but an empty string
+ - Computing nested values every single time my app runs is a waste of time
 
 ## Results
 
