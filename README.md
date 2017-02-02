@@ -39,7 +39,7 @@ $dotenv->load();
 This package is meant to be faster than the other dotenv loaders.<br>
 But please, don't believe me, check my [small benchmark](https://github.com/rfussien/dotenv-benchmark) out, and try it by yourself.
 
-It has less features, but common, it's about a config file and a minimum
+It has less features, but come on, it's about a config file and a minimum
 computing should be done...
 
 IMHO:
