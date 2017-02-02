@@ -32,6 +32,9 @@ class Parser
         }
     }
 
+    /**
+     * Set the scanner_mode used by the parse_ini_file function
+     */
     public function setScannerMode($scannerMode)
     {
         $this->scannerMode = $scannerMode;
@@ -59,9 +62,12 @@ class Parser
         return $this;
     }
 
+    /**
+     * Transforme the boolean used as string in the env file to real boolean
+     */
     public function sanitizeValues()
     {
-        array_walk($this->content, function (&$value, $key) {
+        array_walk($this->content, function (&$value) {
             // sanitize boolean values
             if (in_array($value, ['true', 'on', 'yes', 'false', 'off', 'no'])) {
                 $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
@@ -71,6 +77,11 @@ class Parser
         return $this;
     }
 
+    /**
+     * Return the parsed content
+     *
+     * @return array content
+     */
     public function getContent()
     {
         return $this->content;

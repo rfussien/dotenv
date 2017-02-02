@@ -14,23 +14,30 @@ class Loader
     public function __construct($path, $filename = '.env')
     {
         $path = rtrim($path, DIRECTORY_SEPARATOR);
-        $this->file = $path . DIRECTORY_SEPARATOR . $filename;
 
-        return $this;
+        $this->file = $path . DIRECTORY_SEPARATOR . $filename;
     }
 
     /**
      * parse and set the env
+     *
+     * @return self
      */
     public function load()
     {
         $this->parse();
+
         $this->toEnv();
 
         return $this;
     }
 
-    public function parse(array $options = [])
+    /**
+     * Parse the env file
+     *
+     * @return self
+     */
+    public function parse()
     {
         $this->parser = new Parser;
 
@@ -41,6 +48,8 @@ class Loader
 
     /**
      * Return the parser
+     *
+     * @return Rfussien\Dotenv\Parser
      */
     public function getParser()
     {
@@ -60,6 +69,9 @@ class Loader
         return $this;
     }
 
+    /**
+     * Set an env variable into $_ENV, $_SERVER and putenv
+     */
     public static function putenv($key, $value)
     {
         $_ENV[$key]    = $value;
@@ -72,13 +84,18 @@ class Loader
         putenv("$key=$value");
     }
 
+    /**
+     * Return the value of an environment variable
+     */
     public static function getenv($key, $default = null)
     {
         switch (true) {
             case array_key_exists($key, $_ENV):
                 return $_ENV[$key];
+
             case array_key_exists($key, $_SERVER):
                 return $_SERVER[$key];
+
             default:
                 $value = getenv($key);
                 return $value === false ? $default : $value;

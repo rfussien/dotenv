@@ -16,4 +16,9 @@ class HelperTest extends TestCase
     {
         $this->assertEquals('value', env('K21'));
     }
+
+    public function testTheEnvHelperCanReturnTheDefaultValue()
+    {
+        $this->assertEquals('default', env('ITDOESNTEXISTS', 'default'));
+    }
 }
