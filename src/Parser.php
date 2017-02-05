@@ -50,8 +50,8 @@ class Parser
     public function parse($file)
     {
         try {
-            $this->content = parse_ini_file(
-                $file,
+            $this->content = parse_ini_string(
+                file_get_contents($file),
                 false,
                 $this->scannerMode
             );
